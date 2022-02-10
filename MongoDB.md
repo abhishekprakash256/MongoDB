@@ -74,6 +74,75 @@
 result = todos.update_one({"Name":"Abhi2"}, {"$set":{"Alias":"Abhi_new"}})
 ```
 
+### Pymongo methods
+
+- db collection and listing
+
+```python
+client.list_database_names()        #list all the dataabses
+db = client.test  #connection to the database
+db.list_collection_names()  #to list the collections names
+
+```
+
+- db insertion inside collections
+
+```python
+db = client.test  #test is already craeted there
+#creating a new collection there
+todo1 = {"_id": 1, "name": "abhi", "age": 25}
+#connetion to todos
+todos = db.todos
+result = todos.insert_one(todo1)
+```
+
+- if _id is same the data will not be inserted in the MongoDB will raise bulk error , it should be unique
+
+- Finding the data 
+
+  ```python
+  db = client.test  #test is already craeted there
+  #connetion to todos
+  todos = db.todos
+  result = todos.find_one({"name" : "abhi"})
+  ```
+
+- iteration over the collection objects
+
+```python
+db = client.test  #test is already craeted there
+#connetion to todos
+todos = db.todos
+results = todos.find({"name" : "abhi"})
+#iteration oever the results
+for result in results:
+	print(result)
+```
+
+- we can also convert to the list to objects
+
+- get the number of the items
+
+  ```python
+  print(todos.count_documents({"name": "abhi"}))
+  ```
+
+- to remove the data 
+
+  ```python
+  todos = db.todos
+  from bson import ObjectId
+  result = todos.delete_one({"_id": 1}) #delete many
+  ```
+
+- to update use 
+
+```python
+todos.update_item(previous_item, new_item)  #as above 
+```
+
+
+
 ### Notes 
 
 - stores data in form of BSon  (binary json file)
@@ -114,6 +183,7 @@ result = todos.update_one({"Name":"Abhi2"}, {"$set":{"Alias":"Abhi_new"}})
 - database should have collections 
 - create a database and then collections 
 - multiple insert can take list of dictionaries 
+- collection can be multilevel and nested
 
 ### Commands - 
 
@@ -121,11 +191,7 @@ result = todos.update_one({"Name":"Abhi2"}, {"$set":{"Alias":"Abhi_new"}})
 mongod   #to list data
 ```
 
-
-
-
-
-### Notes 
+### Fixing notes 
 
 - Fix mongod not staring
 
@@ -149,5 +215,6 @@ mongod   #to list data
 ```
 https://www.youtube.com/watch?v=pWbMrx5rVBE
 https://askubuntu.com/questions/823288/mongodb-loads-but-breaks-returning-status-14   (momgodb not starting)
+https://www.youtube.com/watch?v=qWYx5neOh2s
 ```
 
